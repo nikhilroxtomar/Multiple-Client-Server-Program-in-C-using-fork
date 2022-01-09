@@ -59,7 +59,21 @@ int main(){
 			close(sockfd);
 
 			while(1){
-				recv(newSocket, buffer, 1024, 0);
+
+
+
+				if ((ret = recv(newSocket, buffer, 1024, 0)) == 0)
+				{
+					printf("Client disconnected\n");
+					break;
+				}
+				else if (ret < 0)
+				{
+					printf("Received failed\n");
+					break;
+				}
+
+
 				if(strcmp(buffer, ":exit") == 0){
 					printf("Disconnected from %s:%d\n", inet_ntoa(newAddr.sin_addr), ntohs(newAddr.sin_port));
 					break;
